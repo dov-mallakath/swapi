@@ -6,14 +6,11 @@
 1) Find planet for people with id 3 
 2) Find all peoples from space Droid
 
-To simplify work with DTOs, Project Lombok library was used - 
-so to properly work with framework in IDE, 
-it's recommended to use lombok IDE plugin 
-
 ```swapi``` is based on maven project with:
- * test framework -  ```tesng```
+ * language plugin ```groovy```
+ * test framework ```spock``` 
  * API access framework -  ```restassured```
- * reporter - ```allure-maven-plugin```
+ * reporter - ```spock reporter```
 
 ## Quick start
 
@@ -24,21 +21,11 @@ it's recommended to use lombok IDE plugin
 
 2. Run the following maven command:
 
-        $ mvn clean test -Dtesting.suiteXmlFile=src/test/resources/swapi-testtask-regression-suite.xml
+        $ mvn clean test
 
 ## Reports
 
-#####Allure reports
-Framework contains:
- 1. Allure TesNG Adaptor dependency to collect all information about running tests and to have an ability to use framework annotations.
-     All information is saved in XML files in the directory: ```./target/allure-results```
-     Run the build to get test results:
-     ```
-     mvn clean test
-     ```
- 2. Allure Maven Plugin which generates Allure report from existing XML files during Maven build.
-    Generate the report:
-    ```
-    mvn site
-    ```
-    HTML report will be generated into ```./target/site/allure-maven-plugin```
+#####Spock reports
+Framework is configured to generate reports during the test run.
+After the tests are done - HTML report may be found in:
+```.target/spock-reports```
