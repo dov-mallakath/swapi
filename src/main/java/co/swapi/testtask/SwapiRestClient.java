@@ -7,9 +7,14 @@ public class SwapiRestClient extends BaseClient {
     private static final String RESOURCE_ENDPOINT = "%s/";
     private static final String RESOURCE_ENDPOINT_ID = "%s/%s/";
     private static final String SEARCH_RESOURCE_ENDPOINT = "%s/?search=%s";
+    private static final String PAGE_ENDPOINT = "%s/?page=%s";
 
-    Response getAllFromResource(Endpoints endpoint) {
+    Response getFromResource(Endpoints endpoint) {
         return when().get(String.format(RESOURCE_ENDPOINT, endpoint.getEndpoint()));
+    }
+
+    Response getPageFromResource(Endpoints endpoint, String pageNumber) {
+        return when().get(String.format(PAGE_ENDPOINT, endpoint.getEndpoint(), pageNumber));
     }
 
     public Response getResourceById(Endpoints endpoint, String planetId) {

@@ -3,7 +3,12 @@ package co.swapi.testtask;
 import co.swapi.testtask.dto.Planet;
 import org.testng.annotations.Test;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import static co.swapi.testtask.utils.SwapiHelper.getEntitiesFromUrls;
+import static co.swapi.testtask.utils.SwapiHelper.getMatchedDigitPatternFromUrl;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -15,7 +20,7 @@ public class SearchInPlanetsTest extends BaseTest {
     private static final String EXPECTED_PLANET_NAME = "Naboo";
 
     @Test
-    public void shouldFindPlanetForPeopleWithId3() {
+    public void shouldFindHomeworldPlanetForPeopleWithId3() {
         String planetUrl = swapiService.getPeopleById(PEOPLE_ID).getHomeworld();
         Planet planetFromPeople = getEntitiesFromUrls(Planet.class, Endpoints.PLANETS, singletonList(planetUrl))
                 .stream()
@@ -23,6 +28,20 @@ public class SearchInPlanetsTest extends BaseTest {
                 .orElse(new Planet());
         assertThat(planetUrl, notNullValue());
         assertThat(planetFromPeople.getName(), equalTo(EXPECTED_PLANET_NAME));
+    }
+
+    @Test
+    public void shouldFindAllPlanetsForPeopleWithId3() {
+        List<Planet> planetsForPeople = swapiService.getAllPlanets()
+                .stream()
+                .filter(Objects::nonNull)
+                .filter(planet -> planet.getResidents()
+                        .stream()
+                        .anyMatch(residentUrl -> getMatchedDigitPatternFromUrl(residentUrl).equals(PEOPLE_ID))
+                )
+                .collect(Collectors.toList());
+        assertThat(planetsForPeople.size(), equalTo(1));
+        assertThat(planetsForPeople.stream().findFirst().orElse(new Planet()).getName(), equalTo(EXPECTED_PLANET_NAME));
     }
 
 }

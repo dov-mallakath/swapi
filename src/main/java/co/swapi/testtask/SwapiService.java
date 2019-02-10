@@ -5,9 +5,13 @@ import co.swapi.testtask.dto.Planet;
 import co.swapi.testtask.dto.Planets;
 import co.swapi.testtask.dto.Species;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static co.swapi.testtask.utils.SwapiHelper.getMatchedDigitPatternFromUrl;
 import static org.apache.http.HttpStatus.SC_OK;
 
-public class SwapiService {
+class SwapiService {
 
     private SwapiRestClient swapiRestClient;
 
@@ -15,8 +19,8 @@ public class SwapiService {
         swapiRestClient = new SwapiRestClient();
     }
 
-    public Planets getPlanets() {
-        return swapiRestClient.getAllFromResource(Endpoints.PLANETS)
+    Planets getPlanets() {
+        return swapiRestClient.getFromResource(Endpoints.PLANETS)
                 .then()
                 .statusCode(SC_OK)
                 .extract()
@@ -24,7 +28,26 @@ public class SwapiService {
                 .as(Planets.class);
     }
 
-    public Planet getPlanetById(String planetId) {
+    Planets getPlanets(String pageNumber) {
+        return swapiRestClient.getPageFromResource(Endpoints.PLANETS, pageNumber)
+                .then()
+                .statusCode(SC_OK)
+                .extract()
+                .body()
+                .as(Planets.class);
+    }
+
+    List<Planet> getAllPlanets() {
+        Planets planets = getPlanets();
+        List<Planet> allPlanets = new ArrayList<>(planets.getResults());
+        while (planets.getNext() != null) {
+            planets = getPlanets(getMatchedDigitPatternFromUrl(planets.getNext()));
+            allPlanets.addAll(planets.getResults());
+        }
+        return allPlanets;
+    }
+
+    Planet getPlanetById(String planetId) {
         return swapiRestClient.getResourceById(Endpoints.PLANETS, planetId)
                 .then()
                 .statusCode(SC_OK)
@@ -33,7 +56,7 @@ public class SwapiService {
                 .as(Planet.class);
     }
 
-    public People getPeopleById(String peopleId) {
+    People getPeopleById(String peopleId) {
         return swapiRestClient.getResourceById(Endpoints.PEOPLE, peopleId)
                 .then()
                 .statusCode(SC_OK)
@@ -42,7 +65,7 @@ public class SwapiService {
                 .as(People.class);
     }
 
-    public Planets searchInPlanets(String searchRequest) {
+    Planets searchInPlanets(String searchRequest) {
         return swapiRestClient.searchInTheResource(Endpoints.PLANETS, searchRequest)
                 .then()
                 .statusCode(SC_OK)
@@ -51,7 +74,7 @@ public class SwapiService {
                 .as(Planets.class);
     }
 
-    public Species searchInSpecies(String searchRequest) {
+    Species searchInSpecies(String searchRequest) {
         return swapiRestClient.searchInTheResource(Endpoints.SPECIES, searchRequest)
                 .then()
                 .statusCode(SC_OK)

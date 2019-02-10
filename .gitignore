@@ -16,7 +16,7 @@ factoryConfiguration.json
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
-attach_*
+.attach_*
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/

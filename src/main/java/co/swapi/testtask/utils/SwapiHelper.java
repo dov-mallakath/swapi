@@ -16,22 +16,26 @@ import static org.apache.http.HttpStatus.SC_OK;
 
 public class SwapiHelper {
 
+    private static final Pattern DIGIT_PATTERN = Pattern.compile("-?\\d+");
+
+    public static String getMatchedDigitPatternFromUrl(String url) {
+        Matcher matcher = DIGIT_PATTERN.matcher(url);
+        matcher.find();
+        return matcher.group();
+    }
+
     public static <T> List<T> getEntitiesFromUrls(Class<T> entityClassName, Endpoints endpoint, List<String> entityUrls) {
-        Pattern pattern = Pattern.compile("-?\\d+");
         return ofNullable(entityUrls).orElse(singletonList(EMPTY))
                 .stream()
                 .filter(Objects::nonNull)
-                .filter(entityUrl -> pattern.matcher(entityUrl).find())
-                .map(entityUrl -> {
-                    Matcher matcher = pattern.matcher(entityUrl);
-                    matcher.find();
-                    return new SwapiRestClient()
-                            .getResourceById(endpoint, matcher.group())
-                            .then()
-                            .statusCode(SC_OK)
-                            .extract()
-                            .as(entityClassName);
-                })
+                .filter(entityUrl -> DIGIT_PATTERN.matcher(entityUrl).find())
+                .map(entityUrl -> new SwapiRestClient()
+                        .getResourceById(endpoint, getMatchedDigitPatternFromUrl(entityUrl))
+                        .then()
+                        .statusCode(SC_OK)
+                        .extract()
+                        .as(entityClassName)
+                )
                 .collect(Collectors.toList());
     }
 
