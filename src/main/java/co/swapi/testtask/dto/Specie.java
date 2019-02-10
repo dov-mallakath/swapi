@@ -1,9 +1,11 @@
 package co.swapi.testtask.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class Specie {
 
     @JsonProperty("average_height")
@@ -27,63 +29,4 @@ public class Specie {
     private String skinColors;
     private String url;
 
-    public String getAverageHeight() {
-        return averageHeight;
-    }
-
-    public String getAverageLifespan() {
-        return averageLifespan;
-    }
-
-    public String getClassification() {
-        return classification;
-    }
-
-    public String getCreated() {
-        return created;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public String getEdited() {
-        return edited;
-    }
-
-    public String getEyeColors() {
-        return eyeColors;
-    }
-
-    public String getHairColors() {
-        return hairColors;
-    }
-
-    public String getHomeworld() {
-        return homeworld;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getPeople() {
-        return people;
-    }
-
-    public List<String> getFilms() {
-        return films;
-    }
-
-    public String getSkinColors() {
-        return skinColors;
-    }
-
-    public String getUrl() {
-        return url;
-    }
 }

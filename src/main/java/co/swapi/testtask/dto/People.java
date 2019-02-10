@@ -1,9 +1,11 @@
 package co.swapi.testtask.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class People {
 
     @JsonProperty("birth_year")
@@ -27,67 +29,4 @@ public class People {
     private String url;
     private List<String> vehicles;
 
-    public String getBirthYear() {
-        return birthYear;
-    }
-
-    public String getEyeColor() {
-        return eyeColor;
-    }
-
-    public List<String> getFilms() {
-        return films;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public String getHairColor() {
-        return hairColor;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public String getHomeworld() {
-        return homeworld;
-    }
-
-    public String getMass() {
-        return mass;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSkinColor() {
-        return skinColor;
-    }
-
-    public String getCreated() {
-        return created;
-    }
-
-    public String getEdited() {
-        return edited;
-    }
-
-    public List<String> getSpecies() {
-        return species;
-    }
-
-    public List<String> getStarships() {
-        return starships;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public List<String> getVehicles() {
-        return vehicles;
-    }
 }

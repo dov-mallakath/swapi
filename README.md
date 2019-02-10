@@ -6,7 +6,11 @@
 1) Find planet for people with id 3 
 2) Find all peoples from space Droid
 
-It's based on maven project with:
+To simplify work with DTOs, Project Lombok library was used - 
+so to properly work with framework in IDE, 
+it's recommended to use lombok IDE plugin 
+
+```swapi``` is based on maven project with:
  * test framework -  ```tesng```
  * API access framework -  ```restassured```
  * reporter - ```allure-maven-plugin```
